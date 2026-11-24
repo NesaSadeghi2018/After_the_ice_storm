@@ -156,6 +156,6 @@ def test_full_evaluation_returns_three_objectives():
     assert np.isfinite(result["C"])
     assert np.isfinite(result["E"])
 
-    assert -1.0 <= result["Q"] <= 0.0
+    assert -109.0 / 18.0 <= result["Q"] <= 0.0
     assert result["C"] >= 0.0
     assert result["E"] >= 0.0

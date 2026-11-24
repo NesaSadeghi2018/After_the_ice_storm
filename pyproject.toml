@@ -1,6 +1,6 @@
 
 [build-system]
-requires = ["setuptools>=75"]
+requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -12,7 +12,8 @@ dependencies = [
     "numpy",
     "scipy",
     "pandas",
-    "matplotlib"
+    "matplotlib",
+    "cma"
 ]
 
 [project.optional-dependencies]

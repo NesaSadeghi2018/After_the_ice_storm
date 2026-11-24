@@ -108,7 +108,7 @@ def test_objective_q_is_negative_weighted_service_quality():
         "initial_response",
     )
 
-    expected = -(4.0 * 0.5 + 8.0 * 0.8) / 109.0
+    expected = -(4.0 * 0.5 + 8.0 * 0.8) / 18.0
 
     assert np.isclose(result, expected)
 

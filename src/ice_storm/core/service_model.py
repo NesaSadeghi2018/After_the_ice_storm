@@ -1,7 +1,11 @@
 
 import numpy as np
 
-from ice_storm.core.data import BASE_WEIGHTS, DEMAND_TYPES
+from ice_storm.core.data import (
+    BASE_WEIGHTS,
+    DEMAND_TYPES,
+    N_DEMAND_POINTS,
+)
 from ice_storm.core.scenarios import SCENARIOS
 
 
@@ -11,7 +15,8 @@ def compute_service_quality(sinr):
 
     q_j = max_i [SINR_ji^2 / (1 + SINR_ji^2)]
 
-    Returns an array with shape (n_demand_points,).
+    Returns:
+        Array with shape (n_demand_points,).
     """
     sinr = np.asarray(sinr, dtype=float)
 
@@ -19,7 +24,12 @@ def compute_service_quality(sinr):
         raise ValueError("SINR must be a two-dimensional matrix.")
 
     if not np.all(np.isfinite(sinr)) or np.any(sinr < 0):
-        raise ValueError("SINR values must be finite and non-negative.")
+        raise ValueError(
+            "SINR values must be finite and non-negative."
+        )
+
+    if sinr.shape[1] == 0:
+        raise ValueError("SINR must contain at least one station.")
 
     station_quality = sinr**2 / (1.0 + sinr**2)
 
@@ -47,16 +57,20 @@ def compute_priority_weights(scenario_name):
 
 def compute_objective_q(sinr, scenario_name):
     """
-    Compute the weighted negative service quality:
+    Compute the weighted negative service quality.
 
-    Q(X) = -sum(W_j * q_j) / sum(W_j)
+    Q(X) = -sum(W_j * q_j) / 18
     """
     service_quality = compute_service_quality(sinr)
     weights = compute_priority_weights(scenario_name)
 
     if service_quality.shape != weights.shape:
-        raise ValueError("SINR demand-point count does not match the data.")
+        raise ValueError(
+            "SINR demand-point count does not match the data."
+        )
 
-    objective_q = -np.sum(weights * service_quality) / np.sum(weights)
+    objective_q = (
+        -np.sum(weights * service_quality) / N_DEMAND_POINTS
+    )
 
     return float(objective_q)
