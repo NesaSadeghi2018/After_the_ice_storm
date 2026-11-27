@@ -1,5 +1,6 @@
 
 import numpy as np
+import pytest
 
 from ice_storm.core.data import DEMAND_COORDINATES
 from ice_storm.core.scenarios import SCENARIOS
@@ -159,3 +160,19 @@ def test_full_evaluation_returns_three_objectives():
     assert -109.0 / 18.0 <= result["Q"] <= 0.0
     assert result["C"] >= 0.0
     assert result["E"] >= 0.0
+
+
+def test_compute_sinr_rejects_unknown_scenario():
+    deployment = sample_deployment()
+
+
+    with pytest.raises(ValueError, match="Unknown scenario"):
+        compute_sinr(deployment, "unknown_scenario")
+
+
+def test_evaluate_deployment_rejects_unknown_scenario():
+    deployment = sample_deployment()
+
+
+    with pytest.raises(ValueError, match="Unknown scenario"):
+        evaluate_deployment(deployment, "unknown_scenario")

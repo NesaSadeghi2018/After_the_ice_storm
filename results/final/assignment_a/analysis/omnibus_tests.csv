@@ -1,0 +1,10 @@
+scenario,metric,test,statistic,p_value,significant_0.05
+evening_pressure,best_f,Kruskal-Wallis,62.03451420138889,3.3835795961904295e-14,True
+evening_pressure,n_evaluations,Kruskal-Wallis,87.17375769976994,1.1761400317463966e-19,True
+evening_pressure,runtime_seconds,Kruskal-Wallis,69.55175238559121,7.889125522847403e-16,True
+initial_response,best_f,Kruskal-Wallis,61.4910141824581,4.4401324660169495e-14,True
+initial_response,n_evaluations,Kruskal-Wallis,87.16728860995674,1.179950468688077e-19,True
+initial_response,runtime_seconds,Kruskal-Wallis,79.55392211127594,5.309887338930519e-18,True
+northern_outage,best_f,Kruskal-Wallis,18.470131894143915,9.755775980857116e-05,True
+northern_outage,n_evaluations,Kruskal-Wallis,87.17837906611814,1.173425482204434e-19,True
+northern_outage,runtime_seconds,Kruskal-Wallis,78.83817831602721,7.594638333431459e-18,True

@@ -1,0 +1,4 @@
+scenario,combined_pareto_candidates,global_pareto_solutions,service_eligible_solutions,selected_algorithm,selected_service_quality,selected_cost,selected_energy,normalized_cost_energy_distance
+evening_pressure,3352,1815,588,SPEA2,0.8529492460,634.1079809034,434.8083489639,0.2314163985
+initial_response,3340,1823,648,MOEA/D,0.8513564476,635.5661491205,387.9409453044,0.2153420216
+northern_outage,3320,1714,429,SPEA2,0.8524061482,657.6346182484,551.9241396990,0.2769096249

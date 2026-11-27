@@ -1,0 +1,10 @@
+scenario,algorithm,run,seed,best_f,median_f,parameters
+evening_pressure,MVDE,13,2029013,-9.39916042137499,-9.39916042137499,"{""crossover_rate"":0.9,""mutation_factor"":0.3,""population_size"":40}"
+evening_pressure,MVGA,14,2029014,-9.407414738665487,-9.407414738665487,"{""crossover_rate"":0.9,""elitism"":2,""mutation_rate"":0.041666666666666664,""mutation_scale"":0.1,""population_size"":30,""tournament_size"":3}"
+evening_pressure,MVSA,2,2029002,-9.406335361567331,-9.406335361567331,"{""continuous_step_size"":0.1,""cooling_rate"":0.995,""initial_population_size"":40,""initial_temperature"":1.0,""minimum_temperature"":1e-08,""reheat_after"":500,""reheat_factor"":2.0}"
+initial_response,MVDE,19,2028019,-6.027894537799273,-6.027894537799273,"{""crossover_rate"":0.9,""mutation_factor"":0.3,""population_size"":40}"
+initial_response,MVGA,13,2028013,-6.0296781679850096,-6.0296781679850096,"{""crossover_rate"":0.9,""elitism"":2,""mutation_rate"":0.041666666666666664,""mutation_scale"":0.1,""population_size"":30,""tournament_size"":3}"
+initial_response,MVSA,1,2028001,-6.029451614747657,-6.029451614747657,"{""continuous_step_size"":0.1,""cooling_rate"":0.995,""initial_population_size"":40,""initial_temperature"":1.0,""minimum_temperature"":1e-08,""reheat_after"":500,""reheat_factor"":2.0}"
+northern_outage,MVDE,0,2030000,-9.350958546842518,-9.350958546842518,"{""crossover_rate"":0.9,""mutation_factor"":0.3,""population_size"":40}"
+northern_outage,MVGA,12,2030012,-9.357158049454714,-9.357158049454714,"{""crossover_rate"":0.9,""elitism"":2,""mutation_rate"":0.041666666666666664,""mutation_scale"":0.1,""population_size"":30,""tournament_size"":3}"
+northern_outage,MVSA,16,2030016,-9.356998610668615,-9.356998610668615,"{""continuous_step_size"":0.1,""cooling_rate"":0.995,""initial_population_size"":40,""initial_temperature"":1.0,""minimum_temperature"":1e-08,""reheat_after"":500,""reheat_factor"":2.0}"

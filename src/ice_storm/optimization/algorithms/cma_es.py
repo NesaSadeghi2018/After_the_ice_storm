@@ -22,6 +22,9 @@ def cma_es(
     if population_size < 2:
         raise ValueError("Population size must be at least 2.")
 
+    if max_evaluations < population_size:
+        raise ValueError("max_evaluations must be at least population_size.")
+
     dimension = problem.dimension
 
     lower = np.asarray(problem.lower_bounds, dtype=float)
@@ -63,18 +66,14 @@ def cma_es(
     history = []
 
     # CMA-ES optimization loop.
-    while not strategy.stop() and evaluations < max_evaluations:
+    # CMA-ES optimization loop.
+    while (
+        not strategy.stop()
+        and evaluations + population_size <= max_evaluations
+    ):
 
-        if evaluations >= max_evaluations:
-            break
-
-        remaining = max_evaluations - evaluations
-
-        # Ask for a new population.
+        # Ask for a complete population.
         solutions = strategy.ask()
-
-        # Respect the remaining evaluation budget.
-        solutions = solutions[:remaining]
 
         fitness_values = []
 

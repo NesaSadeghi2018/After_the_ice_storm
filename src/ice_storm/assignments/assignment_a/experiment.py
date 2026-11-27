@@ -2,6 +2,7 @@
 import argparse
 import csv
 import json
+import math
 from pathlib import Path
 
 from ice_storm.assignments.assignment_a.problem import (
@@ -107,8 +108,8 @@ def run_experiments(
     if runs < 1:
         raise ValueError("runs must be at least 1.")
 
-    if max_evaluations < 1:
-        raise ValueError("max_evaluations must be at least 1.")
+    if max_evaluations < 2:
+        raise ValueError("max_evaluations must be at least 2.")
 
     output_path = Path(output_file)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -154,11 +155,40 @@ def run_experiments(
                     f"Seed {seed}"
                 )
 
+                algorithm_budget = max_evaluations - 1
+
                 result = algorithm_function(
                     problem=problem,
                     seed=seed,
-                    max_evaluations=max_evaluations,
+                    max_evaluations=algorithm_budget,
                 )
+
+                if result["best_x"] is None:
+                    raise RuntimeError(
+                        f"{algorithm_name} returned no best solution."
+                    )
+
+                recomputed_best_f = problem.objective(
+                    result["best_x"]
+                )
+
+                total_evaluations = result["n_evaluations"] + 1
+                if total_evaluations > max_evaluations:
+                    raise RuntimeError(
+                        f"{algorithm_name} exceeded the total evaluation budget."
+                    )
+
+                if not math.isclose(
+                    float(result["best_f"]),
+                    float(recomputed_best_f),
+                    rel_tol=1e-9,
+                    abs_tol=1e-9,
+                ):
+                    raise RuntimeError(
+                        f"{algorithm_name} objective mismatch: "
+                        f"reported={result['best_f']}, "
+                        f"recomputed={recomputed_best_f}"
+                    )
 
                 if result["n_evaluations"] > max_evaluations:
                     raise RuntimeError(
@@ -170,8 +200,8 @@ def run_experiments(
                     "algorithm": algorithm_name,
                     "run": run_index,
                     "seed": seed,
-                    "best_f": result["best_f"],
-                    "n_evaluations": result["n_evaluations"],
+                    "best_f": recomputed_best_f,
+                    "n_evaluations": total_evaluations,
                     "runtime_seconds": result["runtime_seconds"],
                     "best_x": json.dumps(
                         result["best_x"].tolist()
@@ -187,7 +217,7 @@ def run_experiments(
 
                 print(
                     f"[DONE] Best Q: {result['best_f']:.8f} | "
-                    f"Evaluations: {result['n_evaluations']} | "
+                    f"Evaluations: {total_evaluations} | "
                     f"Runtime: {result['runtime_seconds']:.2f}s"
                 )
 
@@ -225,7 +255,7 @@ def main():
     parser.add_argument(
         "--output",
         type=str,
-        default="results/assignment_a_runs_10000.csv",
+        default="results/assignment_a_runs_10000_revalidated.csv",
     )
 
     args = parser.parse_args()

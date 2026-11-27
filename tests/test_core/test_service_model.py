@@ -97,6 +97,7 @@ def test_unknown_scenario_raises_error():
         compute_priority_weights("unknown_scenario")
 
 
+
 def test_objective_q_is_negative_weighted_service_quality():
     sinr = np.zeros((18, 4))
 
@@ -108,7 +109,10 @@ def test_objective_q_is_negative_weighted_service_quality():
         "initial_response",
     )
 
-    expected = -(4.0 * 0.5 + 8.0 * 0.8) / 18.0
+    expected = -(
+        BASE_WEIGHTS[0] * 0.5
+        + BASE_WEIGHTS[1] * 0.8
+    ) / np.sum(BASE_WEIGHTS)
 
     assert np.isclose(result, expected)
 
@@ -137,3 +141,32 @@ def test_negative_sinr_raises_error():
 
     with pytest.raises(ValueError):
         compute_service_quality(sinr)
+
+
+# Additional validation tests
+
+
+@pytest.mark.parametrize("invalid_value", [np.nan, np.inf, -np.inf])
+def test_non_finite_sinr_raises_error(invalid_value):
+    sinr = np.zeros((18, 4))
+    sinr[0, 0] = invalid_value
+
+    with pytest.raises(ValueError):
+        compute_service_quality(sinr)
+
+
+def test_empty_station_dimension_raises_error():
+    sinr = np.empty((18, 0))
+
+    with pytest.raises(ValueError):
+        compute_service_quality(sinr)
+
+
+def test_objective_q_rejects_mismatched_demand_count():
+    sinr = np.zeros((17, 4))
+
+    with pytest.raises(ValueError):
+        compute_objective_q(
+            sinr,
+            "initial_response",
+        )

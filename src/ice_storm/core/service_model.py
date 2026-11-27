@@ -4,7 +4,6 @@ import numpy as np
 from ice_storm.core.data import (
     BASE_WEIGHTS,
     DEMAND_TYPES,
-    N_DEMAND_POINTS,
 )
 from ice_storm.core.scenarios import SCENARIOS
 
@@ -59,7 +58,7 @@ def compute_objective_q(sinr, scenario_name):
     """
     Compute the weighted negative service quality.
 
-    Q(X) = -sum(W_j * q_j) / 18
+    Q(X) = -sum(W_j * q_j) / sum(W_j)
     """
     service_quality = compute_service_quality(sinr)
     weights = compute_priority_weights(scenario_name)
@@ -70,7 +69,7 @@ def compute_objective_q(sinr, scenario_name):
         )
 
     objective_q = (
-        -np.sum(weights * service_quality) / N_DEMAND_POINTS
+        -np.sum(weights * service_quality) / np.sum(weights)
     )
 
     return float(objective_q)

@@ -90,10 +90,10 @@ def test_sinr_shape_matches_demand_points_and_stations():
 def test_different_channels_do_not_interfere():
     deployment = sample_deployment()
 
-    # Give every station a distinct channel.
-    deployment[:, 4] = [1.0, 2.0, 3.0, 1.0]
+    # Four stations, three of which are active.
+    # Columns: x, y, p, h, c, z.
 
-    # Turn off the fourth station to remove channel reuse.
+    deployment[2, 5] = 1.0
     deployment[3, 5] = 0.0
 
     sinr = compute_sinr(
@@ -105,11 +105,11 @@ def test_different_channels_do_not_interfere():
 
     received_power = compute_received_power(deployment)
 
-    expected = received_power[0] / 0.04
+    expected_sinr = received_power[0] / 0.04
 
     np.testing.assert_allclose(
         sinr[0],
-        expected,
+        expected_sinr,
     )
 
 

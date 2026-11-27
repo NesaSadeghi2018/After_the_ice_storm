@@ -1,0 +1,28 @@
+scenario,metric,algorithm_a,algorithm_b,n_a,n_b,u_statistic,p_raw,cliff_delta,effect_magnitude,direction,p_holm,significant_0.05
+evening_pressure,best_f,DE,PSO,31,31,2.0,1.700799831824452e-11,-0.9958376690946931,large,DE tends to have lower values,4.2030706305022944e-11,True
+evening_pressure,best_f,DE,CMA-ES,31,31,0.0,1.4010235435007649e-11,-1.0,large,DE tends to have lower values,4.2030706305022944e-11,True
+evening_pressure,best_f,PSO,CMA-ES,31,31,585.0,0.1431470540482096,0.21748178980228927,small,CMA-ES tends to have lower values,0.1431470540482096,False
+evening_pressure,n_evaluations,DE,PSO,31,31,480.5,1.0,0.0,negligible,No directional difference,1.0,False
+evening_pressure,n_evaluations,DE,CMA-ES,31,31,961.0,5.005625438976901e-13,1.0,large,CMA-ES tends to have lower values,1.5016876316930702e-12,True
+evening_pressure,n_evaluations,PSO,CMA-ES,31,31,961.0,5.005625438976901e-13,1.0,large,CMA-ES tends to have lower values,1.5016876316930702e-12,True
+evening_pressure,runtime_seconds,DE,PSO,31,31,785.0,1.8698876300694124e-05,0.6337148803329865,large,PSO tends to have lower values,1.8698876300694124e-05,True
+evening_pressure,runtime_seconds,DE,CMA-ES,31,31,961.0,1.4018463184347286e-11,1.0,large,CMA-ES tends to have lower values,4.205538955304186e-11,True
+evening_pressure,runtime_seconds,PSO,CMA-ES,31,31,961.0,1.4018463184347286e-11,1.0,large,CMA-ES tends to have lower values,4.205538955304186e-11,True
+initial_response,best_f,DE,PSO,31,31,5.0,2.2572692955133332e-11,-0.9895941727367326,large,DE tends to have lower values,6.771807886539999e-11,True
+initial_response,best_f,DE,CMA-ES,31,31,23.0,1.2357055180191914e-10,-0.9521331945889698,large,DE tends to have lower values,2.471411036038383e-10,True
+initial_response,best_f,PSO,CMA-ES,31,31,675.0,0.006309587826174715,0.404786680541103,medium,CMA-ES tends to have lower values,0.006309587826174715,True
+initial_response,n_evaluations,DE,PSO,31,31,480.5,1.0,0.0,negligible,No directional difference,1.0,False
+initial_response,n_evaluations,DE,CMA-ES,31,31,961.0,5.03250569080198e-13,1.0,large,CMA-ES tends to have lower values,1.5097517072405939e-12,True
+initial_response,n_evaluations,PSO,CMA-ES,31,31,961.0,5.03250569080198e-13,1.0,large,CMA-ES tends to have lower values,1.5097517072405939e-12,True
+initial_response,runtime_seconds,DE,PSO,31,31,934.0,1.7989184553468506e-10,0.9438085327783559,large,PSO tends to have lower values,1.7989184553468506e-10,True
+initial_response,runtime_seconds,DE,CMA-ES,31,31,961.0,1.4018463184347286e-11,1.0,large,CMA-ES tends to have lower values,4.205538955304186e-11,True
+initial_response,runtime_seconds,PSO,CMA-ES,31,31,961.0,1.4018463184347286e-11,1.0,large,CMA-ES tends to have lower values,4.205538955304186e-11,True
+northern_outage,best_f,DE,PSO,31,31,226.0,0.00034894809627028387,-0.5296566077003122,large,DE tends to have lower values,0.0010468442888108517,True
+northern_outage,best_f,DE,CMA-ES,31,31,234.0,0.0005333624763711298,-0.5130072840790842,large,DE tends to have lower values,0.0010667249527422597,True
+northern_outage,best_f,PSO,CMA-ES,31,31,619.0,0.05202919928729976,0.2882414151925078,small,CMA-ES tends to have lower values,0.05202919928729976,False
+northern_outage,n_evaluations,DE,PSO,31,31,480.5,1.0,0.0,negligible,No directional difference,1.0,False
+northern_outage,n_evaluations,DE,CMA-ES,31,31,961.0,4.98650667517186e-13,1.0,large,CMA-ES tends to have lower values,1.495952002551558e-12,True
+northern_outage,n_evaluations,PSO,CMA-ES,31,31,961.0,4.98650667517186e-13,1.0,large,CMA-ES tends to have lower values,1.495952002551558e-12,True
+northern_outage,runtime_seconds,DE,PSO,31,31,925.0,4.081289782662864e-10,0.9250780437044746,large,PSO tends to have lower values,4.081289782662864e-10,True
+northern_outage,runtime_seconds,DE,CMA-ES,31,31,961.0,1.4018463184347286e-11,1.0,large,CMA-ES tends to have lower values,4.205538955304186e-11,True
+northern_outage,runtime_seconds,PSO,CMA-ES,31,31,961.0,1.4018463184347286e-11,1.0,large,CMA-ES tends to have lower values,4.205538955304186e-11,True
