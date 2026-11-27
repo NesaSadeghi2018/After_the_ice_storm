@@ -69,7 +69,7 @@ Each station is characterized by:
 
 The formulation contains 24 decision variables across four stations.
 
-The objective is to minimize \(Q\).
+The objective is to minimize the negative weighted service-quality measure Q.
 
 | Algorithm | Approach |
 |---|---|
