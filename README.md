@@ -115,60 +115,96 @@ The principal experimental settings are:
 
 Each independent run uses its own random seed.
 
-The evaluation budget applies to deployment evaluations. Algorithm initialization and optimization procedures are subject to the same evaluation-accounting requirements.
+The evaluation budget counts every deployment evaluation, including evaluations performed during algorithm initialization and subsequent optimization.
+
+The 10,000-evaluation setting is a maximum budget. Actual evaluation counts may differ between algorithms due to their stopping criteria and implementation.
 
 Algorithm performance is assessed using descriptive and statistical analyses. For multi-objective optimization, Pareto dominance and hypervolume are used to examine the quality of generated solution sets.
 
 Where applicable, statistical comparisons use paired tests and multiple-comparison corrections.
 
-The 10,000-evaluation setting is a maximum budget; actual evaluation counts may differ between algorithms due to their stopping criteria and implementation.
-
 ---
+
 
 ## 4. Repository Structure
 
 ```text
 After_the_ice_storm/
-├── frostline_runner.py
-├── pyproject.toml
-├── requirements.txt
-├── README.md
-├── src/
-│   └── ice_storm/
-│       ├── assignments/
-│       │   ├── assignment_a/
-│       │   ├── assignment_b/
-│       │   └── assignment_c/
-│       ├── core/
-│       └── optimization/
-│           └── algorithms/
-│               ├── continuous/
-│               ├── mixed_variable/
-│               └── multiobjective/
-├── tests/
-│   ├── test_assignments/
-│   ├── test_core/
-│   └── additional test modules
-├── scripts/
-│   └── select_assignment_c_operational_solutions.py
-└── results/
-    ├── final/
-    │   ├── assignment_a/
-    │   ├── assignment_b/
-    │   └── assignment_c/
-    └── selected Assignment B tuning CSV files
+|-- frostline_runner.py
+|-- pyproject.toml
+|-- requirements.txt
+|-- README.md
+|
+|-- src/
+|   |-- ice_storm/
+|       |-- assignments/
+|       |   |-- assignment_a/
+|       |   |   |-- problem.py
+|       |   |   |-- experiment.py
+|       |   |   |-- reporting.py
+|       |   |
+|       |   |-- assignment_b/
+|       |   |   |-- problem.py
+|       |   |   |-- experiment.py
+|       |   |   |-- tune_mvde.py
+|       |   |   |-- tune_mvga.py
+|       |   |   |-- tune_mvsa.py
+|       |   |
+|       |   |-- assignment_c/
+|       |       |-- problem.py
+|       |       |-- experiment.py
+|       |       |-- analysis.py
+|       |
+|       |-- core/
+|       |   |-- data.py
+|       |   |-- deployment.py
+|       |   |-- evaluation.py
+|       |   |-- interference_model.py
+|       |   |-- objectives.py
+|       |   |-- scenarios.py
+|       |   |-- service_model.py
+|       |   |-- signal_model.py
+|       |
+|       |-- optimization/
+|           |-- algorithms/
+|               |-- cma_es.py
+|               |-- differential_evolution.py
+|               |-- mixed_variable_de.py
+|               |-- mixed_variable_ga.py
+|               |-- mixed_variable_sa.py
+|               |-- multiobjective_utils.py
+|               |-- nsga_ii.py
+|               |-- particle_swarm.py
+|               |
+|               |-- multiobjective/
+|                   |-- moead.py
+|                   |-- objective_scaling.py
+|                   |-- spea2.py
+|
+|-- tests/
+|   |-- test_assignments/
+|   |-- test_core/
+|   |-- additional test modules
+|
+|-- scripts/
+|   |-- select_assignment_c_operational_solutions.py
+|
+|-- results/
+    |-- final/
+        |-- assignment_a/
+        |-- assignment_b/
+        |-- assignment_c/
 ```
 
 ### Main Components
 
 - **core:** Mathematical models, deployment representation, scenarios, signal propagation, interference, service evaluation, and objective calculations.
-- **assignments:** Problem formulations, experiment execution, and analysis modules for Assignments A, B, and C.
-- **optimization:** Continuous, mixed-variable, and multi-objective optimization algorithms.
+- **assignments:** Problem formulations, experiment execution, parameter-tuning utilities, and analysis modules for Assignments A, B, and C.
+- **optimization:** Continuous, mixed-variable, and multi-objective optimization algorithms. The algorithm implementations are organized in the algorithms package, with multi-objective methods in a dedicated subpackage.
 - **tests:** Unit and integration tests for mathematical models, optimization methods, objective scaling, and experiment-runner behavior.
 - **scripts:** Supporting analysis and operational solution-selection utilities.
-- **results/final:** Selected experimental results, Pareto populations, statistical summaries, and analysis visualizations.
+- **results/final:** Final experimental results, Pareto populations, statistical summaries, and analysis visualizations for all three assignments.
 - **frostline_runner.py:** Central command-line interface for running the assignments.
-
 ---
 
 ## 5. Installation and Setup
@@ -203,7 +239,7 @@ Install the project and its development dependencies:
 pip install -e ".[dev]"
 ```
 
-Alternatively, install the listed project dependencies:
+Alternatively, install the project and its development dependencies using the requirements file:
 
 ```bash
 pip install -r requirements.txt
@@ -313,15 +349,16 @@ Tests are intended to verify mathematical consistency, implementation correctnes
 
 ---
 
+
 ## 8. Results and Reproducibility
 
-Selected experimental results are organized under `results/final/`.
+Final experimental results are organized under `results/final/`.
 
 The published results include:
 
-- Assignment A run-level results and statistical comparisons.
-- Assignment B run-level results, objective summaries, convergence analysis, and selected parameter-tuning records.
-- Assignment C run-level results, Pareto populations, objective analyses, and operational solution-selection outputs.
+- **Assignment A:** Revalidated run-level results, descriptive statistics, and global pairwise statistical comparisons.
+- **Assignment B:** Run-level results, secondary objective statistics, convergence analysis, and convergence visualizations.
+- **Assignment C:** Run-level results and Pareto populations for all three multi-objective algorithms, together with objective analyses, solution-diversity statistics, and operational solution-selection outputs.
 
 The experimental framework records run-level information to support comparisons across algorithms and scenarios.
 
@@ -334,17 +371,31 @@ Reproducibility is supported through:
 - Separate experiment modules for each assignment.
 - Centralized experiment orchestration.
 
-Previously generated results should be preserved when conducting additional experiments. New executions can use a separate output directory through the `--output-dir` option.
+The final published results are maintained separately from newly generated experimental outputs. By default, the central runner writes new outputs to `results/frostline_runner/`. A different output directory can be specified using the `--output-dir` option to keep additional experiments separate from the published final results.
 
-The Assignment C operational solution-selection utility is available at:
+### Assignment C Operational Solution Selection
+
+The operational solution-selection utility is available at:
 
 ```text
 scripts/select_assignment_c_operational_solutions.py
 ```
 
-It reads the selected Pareto populations, combines and filters non-dominated solutions, applies the minimum service-quality requirement, and selects an operational candidate based on normalized cost-energy distance.
+The utility combines the Pareto populations generated by MVNSGA-II, MOEA/D, and SPEA2, removes duplicate objective vectors, and recomputes global non-dominance for each scenario.
 
----
+Operational candidates are restricted to solutions with a service quality of at least 0.85. Among eligible candidates, the selected solution minimizes the equal-weight normalized Euclidean distance in the cost-energy objective space:
+
+\[
+D =
+\sqrt{
+\left(\frac{C}{4734.427}\right)^2
++
+\left(\frac{E}{2304}\right)^2
+}
+\]
+
+where \(C\) is deployment cost and \(E\) is energy consumption. This selection rule prioritizes a balanced trade-off between deployment cost and energy consumption while satisfying the minimum service-quality requirement.
+
 
 ## 9. Modeling Assumptions and Limitations
 
